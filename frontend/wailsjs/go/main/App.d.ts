@@ -4,7 +4,7 @@ import {main} from '../models';
 
 export function LoadAmounts():Promise<Record<string, number>>;
 
-export function ManualPumpControl(arg1:number,arg2:boolean):Promise<void>;
+export function ManualPumpControl(arg1:number):Promise<void>;
 
 export function PourByBarcode(arg1:string):Promise<main.OrderResponse>;
 

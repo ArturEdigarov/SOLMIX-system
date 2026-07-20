@@ -19,6 +19,7 @@ type App struct {
 	pumps   map[int]Pump     
 	recipes map[int]Recipe 
 	isRaspberry bool
+	pumpStates  map[int]bool
 }
 type OrderResponse struct {
 	Status       string `json:"status"`        
@@ -123,14 +124,17 @@ func checkRoot() {
         fmt.Println("✅ Root права подтверждены.")
     }
 }
-func (a *App) ManualPumpControl(pumpID int, state bool) {
-    a.setPump(pumpID, state)
+func (a *App) ManualPumpControl(pumpID int) {
+	newState := !a.pumpStates[pumpID]
+	a.pumpStates[pumpID] = newState
+    a.setPump(pumpID, newState)
 }
 
 func NewApp() *App {
 	app := &App{
 		pumps:   make(map[int]Pump),
         recipes: make(map[int]Recipe),
+		pumpStates: make(map[int]bool),
 	}
 	checkRoot()
 
@@ -299,7 +303,9 @@ func (a *App) PourCocktail(recipeID int) OrderResponse {
     }
 }
 func (a *App) PourByBarcode(barcode string) OrderResponse {
-	if barcode == "sol-admin" {
+	consoleOutput := fmt.Sprintf("Сканирован баркод: '%s'", barcode)
+	fmt.Println(consoleOutput)
+	if barcode == "sol-admin" || barcode == "solßadmin" {
         return OrderResponse{
             Status: "admin",
 			TotalTimeMs:  0,

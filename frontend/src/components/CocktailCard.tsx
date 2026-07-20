@@ -16,8 +16,7 @@ const CocktailCard = ({ cocktail, available, onSelect }: CocktailCardProps) => {
           : 'border-slate-900/50 opacity-60'
       }`}
     >
-      {/* Картинка */}
-      <div className="relative h-44 w-full overflow-hidden">
+      <div className="relative h-38 w-full overflow-hidden">
         <img
           src={cocktail.image}
           alt={cocktail.name}
@@ -25,7 +24,6 @@ const CocktailCard = ({ cocktail, available, onSelect }: CocktailCardProps) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
         
-        {/* Статус-плашка */}
         <div className="absolute top-3 right-3">
           {available ? (
             <span className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
@@ -52,7 +50,6 @@ const CocktailCard = ({ cocktail, available, onSelect }: CocktailCardProps) => {
         </div>
       </div>
 
-      {/* Контент */}
       <div className="p-5 flex flex-col justify-between h-[160px]">
         <div>
           <h3 className="text-sm font-black text-slate-100 group-hover:text-purple-400 transition-colors duration-300 uppercase tracking-wide">
@@ -63,7 +60,6 @@ const CocktailCard = ({ cocktail, available, onSelect }: CocktailCardProps) => {
           </p>
         </div>
 
-        {/* Кнопка */}
         {available ? (
           <div 
             onClick={onSelect}

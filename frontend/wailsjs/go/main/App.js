@@ -6,8 +6,8 @@ export function LoadAmounts() {
   return window['go']['main']['App']['LoadAmounts']();
 }
 
-export function ManualPumpControl(arg1, arg2) {
-  return window['go']['main']['App']['ManualPumpControl'](arg1, arg2);
+export function ManualPumpControl(arg1) {
+  return window['go']['main']['App']['ManualPumpControl'](arg1);
 }
 
 export function PourByBarcode(arg1) {
