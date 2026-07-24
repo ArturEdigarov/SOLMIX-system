@@ -322,6 +322,7 @@ func (a *App) PourByBarcode(barcode string) OrderResponse {
 		}
 	}
 	
+
 	// Start 
 	fmt.Println("\n=== [СКАНИРОВАНИЕ] Запуск налива по баркоду ===")
 	var maxDurationSeconds float64 = 0
@@ -335,6 +336,26 @@ func (a *App) PourByBarcode(barcode string) OrderResponse {
 	amounts, err := a.LoadAmounts()
     if err != nil {
         return OrderResponse{Status: "Ошибка загрузки остатков"}
+    }
+
+	// Test of amounts
+	for index, volStr := range volumesStr {
+        volume, err := strconv.Atoi(volStr)
+        if err != nil || volume <= 0 {
+            continue
+        }
+
+        idStr := strconv.Itoa(index)
+        currentAvailable := amounts[idStr] 
+
+        if currentAvailable < volume {
+            fmt.Printf("[ОШИБКА] Недостаточно ингредиента на помпе %d. Требуется: %d, доступно: %d\n", index, volume, currentAvailable)
+            return OrderResponse{
+                Status:       "NoIngredients",
+                TotalTimeMs:  0,
+                CocktailName: "NoIngredients", 
+            }
+        }
     }
 	
 	var pumpsToLaunch []pendingPump

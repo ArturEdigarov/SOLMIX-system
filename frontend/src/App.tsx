@@ -7,6 +7,9 @@ import { useRef, useEffect } from "react";
 import Process from "./components/Process";
 import AdminPanel from "./components/AdminPanel";
 import { LoadAmounts, ProcessPour, PourByBarcode } from "../wailsjs/go/main/App";
+import NoIngredientsPanel from "./components/NoIngredientsPanel";
+
+
 export default function App() {
 
   const [amounts, setAmounts] = useState<Record<number, number>>({});
@@ -24,9 +27,10 @@ export default function App() {
   const [status, setStatus] = useState<string>('Готов к работе. Поднесите баркод к сканеру...');
   const barcodeBuffer = useRef<string>('');
 
-  // Progress and Admin Panel states
+  // Progress and Admin Panel states and 
   const [isProcessOpen, setIsProcessOpen] = useState<boolean>(false);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState<boolean>(false);
+  const [isNoIngredientsOpen, setIsNoIngredientsOpen] = useState<boolean>(false);
   const [processTotalTime, setProcessTotalTime] = useState<number>(0);
   const [processCocktailName, setProcessCocktailName] = useState<string>('');
 
@@ -65,6 +69,9 @@ export default function App() {
   const handleAdminPanel = () => {
     setIsAdminPanelOpen(true);
   };
+  const handleNoIngredientsPanel = () => {
+    setIsNoIngredientsOpen(true);
+  };
   useEffect(() => {
     // Keyboard event listener for barcode scanning
     const handleKeyDown = async (event: KeyboardEvent) => {
@@ -88,6 +95,9 @@ export default function App() {
     // Admin panel trigger
     if (result.status === 'admin') {
       handleAdminPanel()
+    }
+    if (result.status === 'NoIngredients') {
+      handleNoIngredientsPanel()
     }
     if (result.totalTimeMs === 0) {
       setStatus(result.status);
@@ -156,6 +166,10 @@ export default function App() {
           amounts={amounts} 
           setAmounts={setAmounts}
           onClose={() => setIsAdminPanelOpen(false)} 
+        />
+        <NoIngredientsPanel
+          isOpen={isNoIngredientsOpen}
+          onClose={() => setIsNoIngredientsOpen(false)} 
         />
       </div>
     </div>
